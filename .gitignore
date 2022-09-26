@@ -1,3 +1,2 @@
-node_modules
-zad.txt
-DO_ZROBIENIA.txt
+/node_modules
+*.env

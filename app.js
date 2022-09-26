@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
+const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require('./routes/userRoutes');
@@ -49,7 +50,10 @@ app.use(
   })
 );
 
+app.use(hpp());
 app.use(cors());
+
+app.use(compression());
 
 // routes
 app.use('/api/v1/users', userRouter);
