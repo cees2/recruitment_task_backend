@@ -27,6 +27,18 @@ const createTokenAndSendResponse = (
 
   if (!message) delete jsonToBeSent.message;
 
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+  };
+
+  // for https only
+  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+
+  response.cookie('jwt', token, cookieOptions);
+
   response.status(statusCode).json(jsonToBeSent);
 };
 
@@ -50,10 +62,11 @@ exports.signup = catchAsync(async (request, response, next) => {
 
 exports.login = catchAsync(async (request, response, next) => {
   const { email, password } = request.body;
-
   // 1) Check if email and password are included in request body:
 
-  if (!email || !password) next(new AppError('Missing email or password', 400));
+  if (!email) next(new AppError('Missing email. Enter it and try again', 400));
+  if (!password)
+    next(new AppError('Missing password. Enter it and try again', 400));
 
   // 2) Get user and check password
 
@@ -73,14 +86,13 @@ exports.login = catchAsync(async (request, response, next) => {
   );
 });
 
-// The following function checks if user is logged in with valid token.
+// The following function checks if user is logged in with a valid token.
 exports.protect = catchAsync(async (request, response, next) => {
   // 1) Get token
   const { authorization } = request.headers;
-  console.log('authorization:', request.headers);
   const token = authorization.split(' ')[1];
 
-  if (!token) return next(new AppError('You are not logged in.', 401));
+  // if (!token) return next(new AppError('You are not logged in.', 401));
 
   // 2) Token verification. We have to promisify it, because decoding can take some time
   const decodedToken = await promisify(jwt.verify)(

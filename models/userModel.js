@@ -1,17 +1,18 @@
-const validator = require('validator');
-const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
+
 const { Schema, model } = mongoose;
+const bcrypt = require('bcrypt');
+const validator = require('validator');
 
 const userSchema = new Schema({
   name: {
     type: String,
-    required: [true, 'A user must have a name'],
+    required: [true, 'User must have a name'],
     unique: true,
   },
   email: {
     type: String,
-    required: [true, 'Provide email'],
+    required: [true, 'User must have an email'],
     unique: true,
     lowercase: true,
     validate: [validator.isEmail, 'Please provide a correct email'],

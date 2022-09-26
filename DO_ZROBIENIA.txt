@@ -1,2 +1,0 @@
-jwt ma ladowac w cookies.
-cookies w protect.
