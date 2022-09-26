@@ -2,12 +2,16 @@
   "name": "zadrekrutacyjnebackend",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "source": "app.js",
+  "main": "dist/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "SET NODE_ENV=development&&nodemon server.js",
+    "start": "node server.js",
+    "start:dev": "SET NODE_ENV=development&&nodemon server.js",
     "start:prod": "NODE_ENV=production nodemon server.js",
-    "debug": "ndb server.js"
+    "debug": "ndb server.js",
+    "watch": "parcel watch",
+    "build": "parcel build"
   },
   "author": "Damian Mirek",
   "license": "ISC",
@@ -38,6 +42,10 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.8",
+    "parcel": "^2.7.0",
     "prettier": "^2.7.1"
+  },
+  "engines": {
+    "node": ">=10.0.0"
   }
 }
