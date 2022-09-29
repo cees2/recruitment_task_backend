@@ -20,7 +20,6 @@ dotenv.config({ path: './config.env' });
 app.use(helmet());
 
 app.use((request, response, next) => {
-  response.append('Access-Control-Allow-Origin', ['*']);
   response.append(
     'Access-Control-Allow-Methods',
     'GET,HEAD,PUT,PATCH,POST,DELETE'
