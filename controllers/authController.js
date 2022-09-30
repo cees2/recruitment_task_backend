@@ -27,7 +27,7 @@ const createTokenAndSendResponse = (
 
   if (!message) delete jsonToBeSent.message;
 
-  response.removeHeader('Access-Control-Allow-Origin');
+  // response.removeHeader('Access-Control-Allow-Origin');
 
   const cookieOptions = {
     expires: new Date(
