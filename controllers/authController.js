@@ -17,7 +17,7 @@ const createTokenAndSendResponse = (
   user.password = undefined;
 
   const jsonToBeSent = {
-    status: 'success',
+    status: 'success11',
     message,
     token,
     data: {
