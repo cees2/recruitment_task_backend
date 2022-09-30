@@ -17,7 +17,7 @@ const createTokenAndSendResponse = (
   user.password = undefined;
 
   const jsonToBeSent = {
-    status: 'success11',
+    status: 'success',
     message,
     token,
     data: {
@@ -26,6 +26,8 @@ const createTokenAndSendResponse = (
   };
 
   if (!message) delete jsonToBeSent.message;
+
+  response.removeHeader('Access-Control-Allow-Origin');
 
   const cookieOptions = {
     expires: new Date(
