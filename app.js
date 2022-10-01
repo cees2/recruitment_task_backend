@@ -12,6 +12,7 @@ const rateLimit = require('express-rate-limit');
 const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require('./routes/userRoutes');
 const itemsRouter = require('./routes/itemsRoutes');
+const AppError = require('./utils/appError');
 
 const app = express();
 
@@ -59,11 +60,13 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/items', itemsRouter);
 
 // route not found
-app.use('*', (request, response) => {
-  response.status(404).json({
-    status: 'fail',
-    message: 'Could not find that resource.',
-  });
+app.all('*', (request, response, next) => {
+  next(
+    new AppError({
+      status: 'fail',
+      message: 'Could not find that resource.',
+    })
+  );
 });
 
 app.use(globalErrorHandler);

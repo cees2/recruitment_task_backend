@@ -57,7 +57,7 @@ module.exports = (error, request, response, next) => {
   // we want to send basic info about error to client
   else if (process.env.NODE_ENV === 'production') {
     // we should not change arguments
-    let errorObject = { ...error };
+    let errorObject = Object.assign(error);
     // Below code snapshot comes from Jonas Schmedtmann's NodeJS tutorial on udemy.
     // Every error connected with our DB data will have its own name or code:
     if (errorObject.name === 'ValidationError')

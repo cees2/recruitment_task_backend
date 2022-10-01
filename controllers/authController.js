@@ -64,18 +64,20 @@ exports.login = catchAsync(async (request, response, next) => {
   const { email, password } = request.body;
   // 1) Check if email and password are included in request body:
 
-  if (!email) next(new AppError('Missing email. Enter it and try again', 400));
+  if (!email)
+    return next(new AppError('Missing email. Enter it and try again', 400));
   if (!password)
-    next(new AppError('Missing password. Enter it and try again', 400));
+    return next(new AppError('Missing password. Enter it and try again', 400));
 
   // 2) Get user and check password
+
+  console.log(email);
 
   const user = await User.findOne({ email }).select('+password');
 
   // User does not exist in DB or password is incorrect
-
   if (!user || !(await user.checkIfPasswordIsCorrect(password)))
-    next(new AppError('Incorrect email or password', 401));
+    return next(new AppError('Incorrect email or password', 401));
 
   // If compilator reached this point --> user inputed correct data
   createTokenAndSendResponse(
@@ -107,10 +109,10 @@ exports.protect = catchAsync(async (request, response, next) => {
 
   // 4) Check if user has changed password since JWT was issued
 
-  if (await user.passwordChangedAfterJWTWasIssued(decodedToken.iat))
-    return next(
-      new AppError('User has recently changed password. Log in and try again')
-    );
+  // if (await user.passwordChangedAfterJWTWasIssued(decodedToken.iat))
+  //   return next(
+  //     new AppError('User has recently changed password. Log in and try again')
+  //   );
 
   // if compiler reached this point --> user is logged in.
   // Next middleware functions fill have access to currently logged in user.
